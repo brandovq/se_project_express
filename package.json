@@ -13,6 +13,7 @@
   "author": "Brandon Quinonez",
   "type": "commonjs",
   "main": "app.js",
+  "license": "UNLICENSED",
   "scripts": {
     "lint": "npx eslint .",
     "start": "node app.js",
