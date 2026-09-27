@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
 
 // GET /users
 
@@ -8,7 +9,9 @@ const getUsers = (req, res) => {
     .catch((err) => {
       console.error(err);
       // Always log errors to the console. Also, always return a response to the client with an appropriate status code and message (see below)
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server.",
+      });
     });
 };
 
@@ -21,9 +24,11 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: err.message });
       }
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server.",
+      });
     });
 };
 
@@ -39,13 +44,15 @@ const getUser = (req, res) => {
 
       if (err.name === "DocumentNotFoundError") {
         // If the document is not found, the code below will return a 404 status with an appropriate message
-        return res.status(404).send({ message: "User not found" });
+        return res.status(NOT_FOUND).send({ message: "User not found" });
       }
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid user ID" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid user ID" });
       }
 
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server.",
+      });
     });
 };
 
