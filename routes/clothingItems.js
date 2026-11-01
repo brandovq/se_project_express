@@ -7,7 +7,12 @@ const {
   dislikeItem,
 } = require("../controllers/clothingItems");
 
-router.get("/", getItems); // Read
+const auth = require("../middlewares/auth");
+
+router.get("/", getItems); // Read (public)
+
+router.use(auth);
+
 router.post("/", createItem); // Create
 router.delete("/:itemId", deleteItem); // Delete
 router.put("/:itemId/likes", likeItem); // Like

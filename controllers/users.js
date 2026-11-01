@@ -10,21 +10,7 @@ const {
   SERVER_ERROR,
 } = require("../utils/errors");
 
-// GET /users
-
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch((err) => {
-      console.error(err);
-      // Always log errors to the console. Also, always return a response to the client with an appropriate status code and message (see below)
-      return res.status(SERVER_ERROR).send({
-        message: "An error has occurred on the server.",
-      });
-    });
-};
-
-// POST /users
+// POST /signup
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
 
@@ -56,11 +42,9 @@ const createUser = (req, res) => {
     });
 };
 
-// GET /users/:userId
-const getUser = (req, res) => {
-  const { userId } = req.params;
-
-  User.findById(userId)
+// GET /users/me
+const getCurrentUser = (req, res) => {
+  User.findById(req.user._id)
     .orFail()
     .then((user) => res.status(200).send(user))
     .catch((err) => {
@@ -108,4 +92,4 @@ const login = (req, res) => {
     });
 };
 
-module.exports = { getUsers, createUser, getUser, login };
+module.exports = { createUser, getCurrentUser, login };

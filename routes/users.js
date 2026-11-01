@@ -1,5 +1,9 @@
 const router = require("express").Router();
+const auth = require("../middlewares/auth");
+const { getCurrentUser } = require("../controllers/users");
 
-// Routes for the current user (e.g. GET /users/me) are added with the auth middleware
+router.use(auth);
+
+router.get("/me", getCurrentUser);
 
 module.exports = router;
