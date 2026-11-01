@@ -64,6 +64,33 @@ const getCurrentUser = (req, res) => {
     });
 };
 
+// PATCH /users/me
+const updateCurrentUser = (req, res) => {
+  const { name, avatar } = req.body;
+
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, avatar },
+    { new: true, runValidators: true }
+  )
+    .orFail()
+    .then((user) => res.status(200).send(user))
+    .catch((err) => {
+      console.error(err);
+
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(NOT_FOUND).send({ message: "User not found" });
+      }
+      if (err.name === "ValidationError") {
+        return res.status(BAD_REQUEST).send({ message: err.message });
+      }
+
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server.",
+      });
+    });
+};
+
 // POST /signin
 const login = (req, res) => {
   const { email, password } = req.body;
@@ -92,4 +119,4 @@ const login = (req, res) => {
     });
 };
 
-module.exports = { createUser, getCurrentUser, login };
+module.exports = { createUser, getCurrentUser, updateCurrentUser, login };
