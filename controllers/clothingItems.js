@@ -1,5 +1,10 @@
 const ClothingItem = require("../models/clothingItem");
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
+const {
+  BAD_REQUEST,
+  FORBIDDEN,
+  NOT_FOUND,
+  SERVER_ERROR,
+} = require("../utils/errors");
 
 // GET /items
 const getItems = (req, res) => {
@@ -38,25 +43,37 @@ const createItem = (req, res) => {
 };
 
 // DELETE /items/:itemId
-const deleteItem = (req, res) => {
-  ClothingItem.findByIdAndDelete(req.params.itemId)
-    .orFail()
-    .then((item) => res.status(200).send(item))
-    .catch((err) => {
-      console.error(err);
+const deleteItem = async (req, res) => {
+  try {
+    const item = await ClothingItem.findById(req.params.itemId).orFail();
 
-      if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({ message: "Invalid item ID" });
-      }
+    if (!item.owner.equals(req.user._id)) {
+      return res
+        .status(FORBIDDEN)
+        .send({ message: "You do not have permission to delete this item" });
+    }
 
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
-      }
+    const deletedItem = await ClothingItem.findOneAndDelete({
+      _id: item._id,
+      owner: req.user._id,
+    }).orFail();
 
-      return res.status(SERVER_ERROR).send({
-        message: "An error has occurred on the server.",
-      });
+    return res.status(200).send(deletedItem);
+  } catch (err) {
+    console.error(err);
+
+    if (err.name === "CastError") {
+      return res.status(BAD_REQUEST).send({ message: "Invalid item ID" });
+    }
+
+    if (err.name === "DocumentNotFoundError") {
+      return res.status(NOT_FOUND).send({ message: "Item not found" });
+    }
+
+    return res.status(SERVER_ERROR).send({
+      message: "An error has occurred on the server.",
     });
+  }
 };
 
 const likeItem = (req, res) => {
