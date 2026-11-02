@@ -12,9 +12,9 @@ The back-end project is focused on creating a server for the WTWR application. Y
 
 ## Running the Project
 
-`npm run start` — launch the server
+`npm run start` — to launch the server
 
-`npm run dev` — launch the server with automatic restarts during development
+`npm run dev` — to launch the server with the hot reload feature; automatically restarts during development
 
 ## API
 
@@ -46,20 +46,20 @@ Passwords are hashed before storage and are not included in user responses.
 
 ### Endpoints
 
-| Method | Path | Access | Description |
-| --- | --- | --- | --- |
-| `POST` | `/signup` | Public | Create an account |
-| `POST` | `/signin` | Public | Sign in and receive a JWT |
-| `GET` | `/users/me` | Authenticated | Get the current user |
-| `PATCH` | `/users/me` | Authenticated | Update the current user's name and avatar |
-| `GET` | `/items` | Public | List clothing items |
-| `POST` | `/items` | Authenticated | Create a clothing item |
-| `DELETE` | `/items/:itemId` | Authenticated; owner only | Delete an item you created |
-| `PUT` | `/items/:itemId/likes` | Authenticated | Like an item |
-| `DELETE` | `/items/:itemId/likes` | Authenticated | Remove your like from an item |
+| Method   | Path                   | Access                    | Description                               |
+| -------- | ---------------------- | ------------------------- | ----------------------------------------- |
+| `POST`   | `/signup`              | Public                    | Create an account                         |
+| `POST`   | `/signin`              | Public                    | Sign in and receive a JWT                 |
+| `GET`    | `/users/me`            | Authenticated             | Get the current user                      |
+| `PATCH`  | `/users/me`            | Authenticated             | Update the current user's name and avatar |
+| `GET`    | `/items`               | Public                    | List clothing items                       |
+| `POST`   | `/items`               | Authenticated             | Create a clothing item                    |
+| `DELETE` | `/items/:itemId`       | Authenticated; owner only | Delete an item you created                |
+| `PUT`    | `/items/:itemId/likes` | Authenticated             | Like an item                              |
+| `DELETE` | `/items/:itemId/likes` | Authenticated             | Remove your like from an item             |
 
 Deleting an item owned by someone else returns `403 Forbidden`.
 
 ### Testing
 
-Before committing your code, make sure `sprint.txt` in the root folder contains the number of the sprint you're currently working on (for example, `12`).
+Before committing code, make sure `sprint.txt` in the root folder contains the number of the sprint you're currently working on (for example, `12`).
