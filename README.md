@@ -60,6 +60,12 @@ Passwords are hashed before storage and are not included in user responses.
 
 Deleting an item owned by someone else returns `403 Forbidden`.
 
+## Project Pitch Video
+
+Check out the video below, where I describe the backend of my project and some challenges I faced while building it:
+
+https://drive.google.com/file/d/17GwE3dO-OlIeb8F8eg_JcXgUJq6zr_Uy/view?usp=sharing
+
 ### Testing
 
 Before committing code, make sure `sprint.txt` in the root folder contains the number of the sprint you're currently working on (for example, `12`).
